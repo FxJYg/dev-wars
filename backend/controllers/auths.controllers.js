@@ -75,9 +75,9 @@ export const loginUser = async (req, res) => {
             maxAge: 3600000,
         });
 
-        const testToken = req.cookies.token;
-        console.log("Token:", testToken);
-        console.log("User logged in successfully");
+        // const testToken = req.cookies.token;
+        // console.log("Token:", testToken);
+        // console.log("User logged in successfully");
 //        console.log(token);
         res.status(200).json({token, success: true});
     } catch (error) {

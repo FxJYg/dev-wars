@@ -41,7 +41,7 @@ render(<App />);`
             iframeContainerRef.current.appendChild(iframe);
 
             try {
-                let code = editorRef.current.getValue()
+                let code = editorRef.current.getValue();
                 const transformedCode = Babel.transform(code , {
                     presets: ["react", "env"], 
                 }).code;
