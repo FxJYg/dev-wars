@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const authToken  = (req, res, next) => {
-    const token = req.header('Authorization')?.split(' ')[1];
+    const token = req.cookies.token;
 
     if (!token){ 
         console.log("No Token provided");
