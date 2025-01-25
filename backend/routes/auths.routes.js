@@ -1,5 +1,5 @@
 import express from 'express';
-import {resgisterUser, loginUser, logoutUser, deleteUser} from '../controllers/auths.controllers.js';
+import {checkLoggedIn, resgisterUser, loginUser, logoutUser, deleteUser} from '../controllers/auths.controllers.js';
 
 const router = express.Router();
 
@@ -11,5 +11,6 @@ router.delete('/delete', deleteUser);
 
 router.post('/logout', logoutUser);
 
+router.get('/check', checkLoggedIn);
 
 export default router;

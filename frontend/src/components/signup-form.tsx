@@ -35,7 +35,7 @@ export function SignupForm({
 
     const userData = { name, email, password, password2 };
     try{
-      const response = await fetch('http://localhost:5000/auths/register', {
+      const response = await fetch('http://localhost:3001/auths/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
