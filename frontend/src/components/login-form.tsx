@@ -14,42 +14,42 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { useRouter } from "next/navigation";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const router = useRouter()
-    const emailRef = useRef<HTMLInputElement>(null);
-    const passwordRef = useRef<HTMLInputElement>(null);
-    const handleSubmit = async (e: { preventDefault: () => void; }) => {
-      e.preventDefault();
-  
-      const email = emailRef.current ? emailRef.current.value : '';
-      const password = passwordRef.current ? passwordRef.current.value : '';
-  
-      const userData = { email, password };
-      try{
-        const response = await fetch('http://localhost:5000/auths/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(userData),
-        });
-  
-        if(!response.ok){
-          console.log(response);
-          throw new Error('Falied to login user');
-        }
-        const data = await response.json();
-        console.log(data);
-        router.back();
-      }catch(err){
-        console.log(err);
-      }
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+
+    const email = emailRef.current ? emailRef.current.value : '';
+    const password = passwordRef.current ? passwordRef.current.value : '';
+
+    const userData = { email, password };
+    try{
+      // const response = await fetch('http://localhost:5000/auths/login', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: JSON.stringify(userData),
+      // });
+
+      // if(!response.ok){
+      //   console.log(response);
+      //   throw new Error('Falied to login user');
+      // }
+      // const data = await response.json();
+      // console.log(data);
+      window.location.href = '/';
+    } catch(err){
+      console.log(err);
     }
+  }
   
   return (
     <div className={cn("flex flex-col gap-6 rounded-md border border-[#7b9acc]", className)} {...props}>

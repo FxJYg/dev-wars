@@ -10,7 +10,6 @@ export function LoginLogOut() {
     
     const logOut = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
-        
         try{
             fetch('http://localhost:5000/auths/logout', {
             method: 'POST',
@@ -34,7 +33,7 @@ export function LoginLogOut() {
             method: 'GET',
             credentials: 'include', // Ensures cookies are sent with the request
         });
-    
+        
         if (!response.ok) {
             console.log('Not logged in');
             setIsLoggedIn(false);
@@ -56,11 +55,11 @@ export function LoginLogOut() {
         <div>
         { isLoggedIn ? (
                 <Link href="/" onClick={logOut}>
-                <IoLogInOutline className="w-6 h-6 hover:scale-110"/>
+                    <IoLogInOutline className="w-6 h-6 hover:scale-110"/>
                 </Link>
             ):(
                 <Link href="/login">
-                <IoLogInOutline className="w-6 h-6 hover:scale-110"/>
+                    <IoLogInOutline className="w-6 h-6 hover:scale-110"/>
                 </Link>
             )}
         </div>

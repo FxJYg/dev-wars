@@ -2,6 +2,7 @@ import "./globals.css";
 import Link from "next/link";
 import { MdOutlineMonitor } from "react-icons/md";
 import { LuSwords } from "react-icons/lu";
+import { LoginLogOut } from "@/components/login-logout";
 import { IoLogInOutline } from "react-icons/io5";
 
 export default function RootLayout({
@@ -50,9 +51,10 @@ export default function RootLayout({
                       className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-[#7b9acc] transition-all duration-300 group-hover:w-full group-hover:left-0"
                     ></span>
                   </div>
-                  <Link href="/login">
+                  <LoginLogOut />
+                  {/* <Link href="/login">
                     <IoLogInOutline className="w-6 h-6 hover:scale-110"/>
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
             </nav>
