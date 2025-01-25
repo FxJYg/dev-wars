@@ -21,7 +21,7 @@ export function LoginForm({
 }: React.ComponentPropsWithoutRef<"div">) {
   const router = useRouter()
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div className={cn("flex flex-col gap-6 rounded-md border border-[#7b9acc]", className)} {...props}>
       <Card>
         <CardHeader>
           <div className="flex relative items-center text-2xl">
@@ -31,18 +31,18 @@ export function LoginForm({
             </button>
           </div>
           <CardDescription>
-            Enter your username below to login to your account
+            Enter your email below to login to your account
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
-                <Label htmlFor="username">Username</Label>
+                <Label htmlFor="email">Email</Label>
                 <Input
-                  id="username"
-                  type="username"
-                  placeholder="johndoe"
+                  id="email"
+                  type="email"
+                  placeholder="johndoe@gmail.com"
                   required
                 />
               </div>
