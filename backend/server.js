@@ -2,11 +2,12 @@ import express from 'express';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auths.routes.js';
 import userRoutes from './routes/user.routes.js';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 
 const app = express();
-app.use(express.json());
 //   try {
 //     // Simple test to see if the connection works
 //     const result = await pool.query('SELECT NOW()');
@@ -17,6 +18,15 @@ app.use(express.json());
 //     res.status(500).send('Database connection failed');
 //   }
 // });
+//app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true,
+}));
+
+app.use(cookieParser());
 app.use('/auths', authRoutes);
 app.use('/users', userRoutes);
 
