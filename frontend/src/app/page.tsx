@@ -10,7 +10,7 @@ export default function Home() {
   const [currentCode, setCurrentCode] = useState("");
 
   const codeSnippet = 
-`immport React, { useState } from "react";
+`impport React, { useState } from "react";
 
 export default function TodoList() {
   const tasks = ["Learn React", "Build a To-Do List", "Master JavaScript"];
@@ -49,7 +49,7 @@ export default function TodoList() {
     
 
   return (
-    <div className="flex flex-col h-full pt-6 gap-4">
+    <div className="flex flex-col h-full pt-6 mb-6 gap-4">
       <div className="mx-auto justify-center items-center">
         <h1 className="text-bold text-center text-3xl font-mono">
           No more tutorials and walkthroughs.<br />Test your skills in real world challenges that matter.
