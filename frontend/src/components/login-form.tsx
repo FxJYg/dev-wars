@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import {  useRef } from "react";
 
 export function LoginForm({
   className,
@@ -31,20 +31,21 @@ export function LoginForm({
 
     const userData = { email, password };
     try{
-      // const response = await fetch('http://localhost:5000/auths/login', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   },
-      //   body: JSON.stringify(userData),
-      // });
+      const response = await fetch('http://localhost:3001/auths/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials:"include",
+        body: JSON.stringify(userData),
+      });
 
-      // if(!response.ok){
-      //   console.log(response);
-      //   throw new Error('Falied to login user');
-      // }
-      // const data = await response.json();
-      // console.log(data);
+      if(!response.ok){
+        console.log(response);
+        throw new Error('Falied to login user');
+      }
+      const data = await response.json();
+      console.log(data);
       window.location.href = '/';
     } catch(err){
       console.log(err);

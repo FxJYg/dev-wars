@@ -11,7 +11,7 @@ export function LoginLogOut() {
     const logOut = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
         try{
-            fetch('http://localhost:5000/auths/logout', {
+            fetch('http://localhost:3001/auths/logout', {
             method: 'POST',
             credentials: 'include', // Ensures cookies are sent with the request
             }
@@ -29,7 +29,7 @@ export function LoginLogOut() {
 
     const checkLoginStatus = async ()=> {
         try {
-        const response = await fetch('http://localhost:5000/auths/check', {
+        const response = await fetch('http://localhost:3001/auths/check', {
             method: 'GET',
             credentials: 'include', // Ensures cookies are sent with the request
         });
@@ -42,7 +42,7 @@ export function LoginLogOut() {
     
         const data = await response.json();
         console.log('Logged in:', data);
-        setIsLoggedIn(data.isAuthenticated);
+        setIsLoggedIn(true);
         } catch (error) {
             console.error('Error checking login status:', error);
             setIsLoggedIn(false);

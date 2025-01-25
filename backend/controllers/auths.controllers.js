@@ -75,9 +75,9 @@ export const loginUser = async (req, res) => {
             maxAge: 3600000,
         });
 
-        const testToken = req.cookies.token;
-        console.log("Token:", testToken);
-        console.log("User logged in successfully");
+        // const testToken = req.cookies.token;
+        // console.log("Token:", testToken);
+         console.log("User logged in successfully");
 //        console.log(token);
         res.status(200).json({token, success: true});
     } catch (error) {
@@ -124,5 +124,23 @@ export const logoutUser = async (req, res) => {
     } catch (error) {
         console.log("Error logging out user:", error);
         res.status(500).json({ message: "Server error" ,success: false});
+    }
+}
+
+export const checkLoggedIn = async (req, res) => {
+    const token = req.cookies.token;
+
+    if (!token){
+        console.log("No Token provided");
+        return res.status(401).json({ message: "Access Denied. No Token provided." });
+    }
+
+    try {
+        const verified = jwt.verify(token, process.env.JWT_SECRET);
+        console.log("User is logged in");
+        res.status(200).json({message: "User is logged in" ,success: true});
+    } catch (error) {
+        console.log("Invalid Token");
+        res.status(400).json({ message: "Invalid Token" ,success: false});
     }
 }
