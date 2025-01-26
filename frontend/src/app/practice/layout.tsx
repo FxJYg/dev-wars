@@ -1,8 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { time } from "console";
 
 export default function PracticeLayout({
     children,
@@ -11,6 +12,10 @@ export default function PracticeLayout({
     children: React.ReactNode;
     menu: React.ReactNode;
   }>) {
+    const [timeLeft, setTimeLeft] = useState<number>(() => {
+        const savedTimer = localStorage.getItem("timer");
+        return savedTimer ? parseInt(savedTimer) : 0;
+    });
     const router = useRouter()
     useEffect(() => {
         const checkLogin = async () => {
@@ -38,11 +43,22 @@ export default function PracticeLayout({
         }
         checkLogin();
     }, [router])
-    console.log("Modal: ", menu)
+
+    useEffect(() => {
+        if (!timeLeft) return;
+        const interval = setInterval(() => {
+            setTimeLeft(timeLeft - 1);
+        }, 1000)
+        return () => clearInterval(interval);
+    }, [timeLeft]);
+
     return (
-        <div className="flex flex-col gap-2 h-full w-full">
+        <div className="flex h-full w-full">
             {children}
             {menu}
+            <div className="fixed p-4 bottom-2 right-2 rounded-lg font-mono bg-white border-[#7b9acc] border-2 text-black">
+                {`${String(Math.floor(timeLeft / 60)).padStart(2, '0')}:${String(timeLeft % 60).padStart(2, '0')}`}
+            </div>
         </div>
     );
 }
