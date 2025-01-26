@@ -11,17 +11,18 @@ export const getChallenge = async(req, res)=>{
     console.log("Generating challenge");
     const {dif} = req.body;
     try{
-        const result = generate(dif);
-        const cypressText = result.content.cypress;
-        const taskList = result.content.taskList;
-        const name = result.content.name;
+        const result = await generate(dif);
+        console.log(result);
+        const upResult = JSON.parse(result);
+        const cypressText = upResult.cypress;
+        console.log(typeof(cypressText));
         try{
-            await writeFile('../cypress/e2e/validateCode.cy.js',cypressText);
+            await writeFile('./cypress/e2e/validateCode.cy.js', cypressText);
             console.log("File written succesfully")
         }catch(err){
             console.error('Error writing file:', err);
         }
-        res.status(200).json({message: "generated successfully ", name : name, taskList: taskList});
+        res.status(200).json(upResult);
     }catch(error){
         console.error('Error: '+ error.message);
     }
@@ -34,6 +35,7 @@ export const trigger = async(req, res)=>{
     try{
         ps.on("output", data =>{
             console.log("Cypress Test Output:", data);
+            console.log(typeof(data));
             res.status(200).send({
                 message: 'Cypress tests completed successfully.',
                 data,

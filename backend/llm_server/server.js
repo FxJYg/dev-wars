@@ -23,9 +23,9 @@ const response = z.object({
 
 
 
-export const generate = (dif) => {
+export const generate = async (dif) => {
 
-const chatCompletion = openAIClient.chat.completions.create({
+const chatCompletion = await openAIClient.chat.completions.create({
     model: "gpt-4o-mini",
     store: true,
     messages:[{
@@ -38,10 +38,10 @@ const chatCompletion = openAIClient.chat.completions.create({
     response_format: zodResponseFormat(response, "event"),
 })
 
-    let result;
-chatCompletion.then((data) => {
-    result = data.choices[0].message;
-});
+    const result = chatCompletion.choices[0].message;
+    //console.log(result.content);
 
-    return result;
+        // Return the result as a JSON string
+    return result.content;
+
 }

@@ -6,11 +6,13 @@ import {
 } from "@/components/ui/resizable"
 
 import Editor, { type OnMount } from '@monaco-editor/react';
-import { useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import * as Babel from "@babel/standalone";
 import { FaPlay } from "react-icons/fa";
 import { MdFileUpload } from "react-icons/md";
 import { MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
+import {useTimerContext} from "@/context/TimerContext";
+
 
 type IStandaloneCodeEditor = Parameters<OnMount>[0];
 
@@ -26,10 +28,20 @@ export function ReactEditor({ submit=true }){
 };
 render(<App />);`
 
+    const { selectedInstruction, setSelectedInstruction } = useTimerContext();
+    const [curInstruction, setCurInstruction] = useState(selectedInstruction);
+    const [lineInstruction, setLineInstruction] = useState([""])
     function handleEditorDidMount(editor: IStandaloneCodeEditor) {
         editorRef.current = editor;
       }
       
+      useEffect(()=>{
+        setCurInstruction(selectedInstruction);
+      },[selectedInstruction])
+
+      useEffect(()=>{
+        setLineInstruction(curInstruction.split("\n"));
+      },[curInstruction])
     const handleSubmitCode = async() => {
         if(iframeContainerRef.current && editorRef.current){
             try{
@@ -178,7 +190,7 @@ render(<App />);`
             {submit ?
                 <ResizablePanel defaultSize={50}>
                     <ResizablePanelGroup direction="vertical">
-                        <ResizablePanel defaultSize={70}>
+                        <ResizablePanel defaultSize={50}>
                             <div className="flex flex-col gap-2 p-2 h-full">
                                 <h2 className="font-mono text-sm opacity-40 p-2">http://localhost:3000/</h2>
                                 <div ref={iframeContainerRef} className="flex w-full h-full items-center justify-center p-6 bg-white rounded-md"></div>
@@ -186,15 +198,23 @@ render(<App />);`
                         </ResizablePanel>
                         <ResizableHandle />
                         
-                        <ResizablePanel defaultSize={30}>
-                            <div className="flex flex-col h-full p-2">
-                                <h2 className="font-mono text-sm opacity-40 p-2">requirements.txt</h2>
-                                <h2 className="text-sm p-2">Project: To-Do List</h2>
-                                <ul className="text-sm p-2">
-                                    <li><MdOutlineCheckBoxOutlineBlank className="inline"/> Add tasks to a list.</li>    
-                                    <li><MdOutlineCheckBoxOutlineBlank className="inline"/> Mark tasks as completed.</li>
-                                    <li><MdOutlineCheckBoxOutlineBlank className="inline"/>  Delete tasks from the list.</li>
-                                </ul>
+                        <ResizablePanel defaultSize={50}>
+                            <div className="flex flex-col h-full p-2" >
+                            <h2 className="font-mono text-sm opacity-40 p-2">requirements.txt</h2>
+                            <h2 className="text-sm p-2" style={{ textAlign: "center",fontWeight: 'bold' }}>{lineInstruction[0]}</h2>
+                            <ul className="text-sm p-2">
+                                {lineInstruction.slice(1).map((line,index)=>(
+                                    <div style={{ 
+                                        whiteSpace: 'pre-line', 
+                                            textIndent: (index + 1) % 2 === 0 ? '20px' : '0px', 
+                                            marginBottom: (index + 1) % 2 === 0 ? '20px' : '0px', 
+                                        }} key={index}>
+                                        
+                                        {line}
+                                    
+                                    </div>    
+                                ))}
+                            </ul>
                             </div>
                         </ResizablePanel>
                     </ResizablePanelGroup>
