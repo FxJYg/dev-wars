@@ -4,7 +4,7 @@ import pool from "../db/db.js";
 import dotenv from 'dotenv';
 //import flash from 'express-flash';
 
-export const resgisterUser = async (req, res) => {
+export const registerUser = async (req, res) => {
     const { name, email, password,password2 } = req.body;
     console.log(req.body);
     try {
@@ -63,7 +63,7 @@ export const loginUser = async (req, res) => {
             return res.status(401).json({ message: "Passward is incorrect" , success: false});
         }
 
-        const token = jwt.sign({ email: user.rows[0].email },
+        const token = jwt.sign({ name : user.rows[0].name },
             process.env.JWT_SECRET,
             {expiresIn: "1h"}
         );
