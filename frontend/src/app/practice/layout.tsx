@@ -2,8 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import { time } from "console";
+import { TimerProvider, useTimerContext } from "@/context/TimerContext";
 
 export default function PracticeLayout({
     children,
@@ -12,10 +11,10 @@ export default function PracticeLayout({
     children: React.ReactNode;
     menu: React.ReactNode;
   }>) {
-    const [timeLeft, setTimeLeft] = useState<number>(() => {
-        const savedTimer = localStorage.getItem("timer");
-        return savedTimer ? parseInt(savedTimer) : 0;
-    });
+    
+    const { selectedSetting, setSelectedSetting } = useTimerContext();
+    const [timeLeft, setTimeLeft] = useState(selectedSetting);
+
     const router = useRouter()
     useEffect(() => {
         const checkLogin = async () => {
@@ -45,12 +44,16 @@ export default function PracticeLayout({
     }, [router])
 
     useEffect(() => {
+        setTimeLeft(selectedSetting * 60);
+    }, [selectedSetting])
+
+    useEffect(() => {
         if (!timeLeft) return;
         const interval = setInterval(() => {
             setTimeLeft(timeLeft - 1);
         }, 1000)
         return () => clearInterval(interval);
-    }, [timeLeft]);
+    }, [timeLeft]);    
 
     return (
         <div className="flex h-full w-full">

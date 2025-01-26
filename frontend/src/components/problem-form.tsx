@@ -17,14 +17,15 @@ import {
 import { Button } from "./ui/button";  
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useTimerContext } from "@/context/TimerContext";
 
 export function ProblemForm(){
     const [timerValue, setTimerValue] = useState(0);
     const router = useRouter();
+    const { selectedSetting, setSelectedSetting } = useTimerContext();
 
     const handleProblem = () => {
-        console.log("time: ", timerValue);
-        localStorage.setItem("time", JSON.stringify({timer : timerValue}));
+        setSelectedSetting(timerValue);
         router.back()
     }
 

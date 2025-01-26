@@ -1,9 +1,13 @@
+"use client";
+
 import "./globals.css";
 import Link from "next/link";
 import { MdOutlineMonitor } from "react-icons/md";
 import { LuSwords } from "react-icons/lu";
 import { LoginLogOut } from "@/components/login-logout";
 import { IoLogInOutline } from "react-icons/io5";
+import { TimerProvider, useTimerContext } from "@/context/TimerContext";
+import { usePathname } from "next/navigation";
 
 export default function RootLayout({
   children,
@@ -12,6 +16,9 @@ export default function RootLayout({
   children: React.ReactNode;
   auth: React.ReactNode;
 }>) {
+
+  const pathname = usePathname();
+  console.log(pathname);
 
   return (
     <html lang="en" className="dark">
@@ -36,19 +43,21 @@ export default function RootLayout({
                 </Link>
                 <div className="flex space-x-6 w-full px-2 items-center justify-end text-lg font-bold">
                   <div className="group relative inline-block">
-                    <Link href="/play">
-                      play
+                    <Link href="/practice">
+                      Practice
                     </Link>
                     <span
-                      className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-[#7b9acc] transition-all duration-300 group-hover:w-full group-hover:left-0"
+                      className={`absolute bottom-0 left-1/2 w-0 h-[2px] bg-[#7b9acc] 
+                        ${pathname.includes("/practice") ? `left-0 w-full` :`transition-all duration-300 group-hover:w-full group-hover:left-0`}`}
                     ></span>
                   </div>
                   <div className="group relative inline-block">
-                    <Link href="/practice">
-                      practice
+                    <Link href="/play">
+                      Playground
                     </Link>
                     <span
-                      className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-[#7b9acc] transition-all duration-300 group-hover:w-full group-hover:left-0"
+                      className={`absolute bottom-0 left-1/2 w-0 h-[2px] bg-[#7b9acc] 
+                        ${pathname == "/play" ? `left-0 w-full` :`transition-all duration-300 group-hover:w-full group-hover:left-0`}`}
                     ></span>
                   </div>
                   <LoginLogOut />
@@ -57,14 +66,11 @@ export default function RootLayout({
             </nav>
           </header>
           <main className="flex-grow">
-            {children}
+            <TimerProvider>
+              {children}
+            </TimerProvider>
             {auth}
           </main>
-          <footer>
-            <div className="text-center p-6 border-t border-gray-700">
-              &copy; {new Date().getFullYear()} Felix Yang and Joshua Zheng. All rights reserved.
-            </div>
-          </footer>
         </div>
       </body>
     </html>
