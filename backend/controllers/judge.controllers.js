@@ -1,10 +1,32 @@
-//import {exec } from 'child_process';
-//import express from 'express';
 import dotenv from 'dotenv';
 import app2 from '../server.js';
 import PowerShell from "powershell";
+import { generate } from '../llm_server/server.js';
+import {writeFile} from 'fs/promises';
 
 dotenv.config();
+
+
+export const getChallenge = async(req, res)=>{
+    console.log("Generating challenge");
+    const {dif} = req.body;
+    try{
+        const result = generate(dif);
+        const cypressText = result.content.cypress;
+        const taskList = result.content.taskList;
+        const name = result.content.name;
+        try{
+            await writeFile('../cypress/e2e/validateCode.cy.js',cypressText);
+            console.log("File written succesfully")
+        }catch(err){
+            console.error('Error writing file:', err);
+        }
+        res.status(200).json({message: "generated successfully ", name : name, taskList: taskList});
+    }catch(error){
+        console.error('Error: '+ error.message);
+    }
+}
+
 
 export const trigger = async(req, res)=>{
     console.log('Triggering Cypress tests...');
@@ -31,18 +53,6 @@ export const trigger = async(req, res)=>{
             console.log("yay");
         });
     }  
-    // exec('npx cypress run --headless',{cwd: "../"} ,(error, stdout, stderr) =>{
-    //     if(error){
-    //         console.log(`Error executing Crypress tests: ${error.message}`);
-    //         return res.status(500).send({message: 'Crypress tests failed.', error: error.message});
-    //     }
-    //     console.log('Cypress Output: '+ stdout);
-    //     if(stderr){
-    //         console.error('Cypress Errors:' + stderr);
-    //     }
-
-    //     return res.status(200).send({message: 'Cypress tests completed successfully.', outout: stdout});
-    // })
 }
 
 export const getCode = async (req, res) =>{
