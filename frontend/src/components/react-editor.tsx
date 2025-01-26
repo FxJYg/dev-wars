@@ -14,7 +14,7 @@ import { MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
 
 type IStandaloneCodeEditor = Parameters<OnMount>[0];
 
-export function ReactEditor({}){
+export function ReactEditor({ submit=true }){
     const editorRef = useRef<IStandaloneCodeEditor>(null);
     const iframeContainerRef = useRef<HTMLDivElement>(null);
     const defaultCode = `const App = () => {
@@ -148,50 +148,65 @@ render(<App />);`
                                     ></span>
                                 </div>
                             </button>
-                            <button onClick={handleSubmitCode} className="bg-[#7b9acc] rounded-md hover:scale-105">
-                                <div className="relative">
-                                    <div className="flex items-center space-x-1 px-2 py-1">
-                                        <MdFileUpload className="w-5 h-5"/>
-                                        <h3 className="text-sm font-extrabold">Submit</h3>
+                            {submit && 
+                                <button onClick={handleSubmitCode} className="bg-[#7b9acc] rounded-md hover:scale-105">
+                                    <div className="relative">
+                                        <div className="flex items-center space-x-1 px-2 py-1">
+                                            <MdFileUpload className="w-5 h-5"/>
+                                            <h3 className="text-sm font-extrabold">Submit</h3>
+                                        </div>
+                                        <span
+                                            className="absolute inset-0 border-2 border-transparent rounded-md transition duration-500 
+                                            hover:rounded-lg spin hover:border-white"
+                                        ></span>
                                     </div>
-                                    <span
-                                        className="absolute inset-0 border-2 border-transparent rounded-md transition duration-500 
-                                        hover:rounded-lg spin hover:border-white"
-                                    ></span>
-                                </div>
-                            </button>
+                                </button>
+                            }
                         </div>
                     </div>
-                    <Editor
-                        defaultLanguage="javascript"
-                        defaultValue={defaultCode}
-                        onMount={handleEditorDidMount}
-                    />
+                    <div className="flex-grow w-full bg-white">
+                        <Editor
+                            defaultLanguage="javascript"
+                            defaultValue={defaultCode}
+                            onMount={handleEditorDidMount}
+                        />
+                    </div>
+                    
                 </div>
             </ResizablePanel>
             <ResizableHandle />
-            <ResizablePanel defaultSize={50}>
-                <ResizablePanelGroup direction="vertical">
-                <ResizablePanel defaultSize={70}>
+            {submit ?
+                <ResizablePanel defaultSize={50}>
+                    <ResizablePanelGroup direction="vertical">
+                        <ResizablePanel defaultSize={70}>
+                            <div className="flex flex-col gap-2 p-2 h-full">
+                                <h2 className="font-mono text-sm opacity-40 p-2">http://localhost:3000/</h2>
+                                <div ref={iframeContainerRef} className="flex w-full h-full items-center justify-center p-6 bg-white rounded-md"></div>
+                            </div>
+                        </ResizablePanel>
+                        <ResizableHandle />
+                        
+                        <ResizablePanel defaultSize={30}>
+                            <div className="flex flex-col h-full p-2">
+                                <h2 className="font-mono text-sm opacity-40 p-2">requirements.txt</h2>
+                                <h2 className="text-sm p-2">Project: To-Do List</h2>
+                                <ul className="text-sm p-2">
+                                    <li><MdOutlineCheckBoxOutlineBlank className="inline"/> Add tasks to a list.</li>    
+                                    <li><MdOutlineCheckBoxOutlineBlank className="inline"/> Mark tasks as completed.</li>
+                                    <li><MdOutlineCheckBoxOutlineBlank className="inline"/>  Delete tasks from the list.</li>
+                                </ul>
+                            </div>
+                        </ResizablePanel>
+                    </ResizablePanelGroup>
+                </ResizablePanel>
+            :
+                <ResizablePanel>
                     <div className="flex flex-col gap-2 p-2 h-full">
                         <h2 className="font-mono text-sm opacity-40 p-2">http://localhost:3000/</h2>
                         <div ref={iframeContainerRef} className="flex w-full h-full items-center justify-center p-6 bg-white rounded-md"></div>
                     </div>
                 </ResizablePanel>
-                <ResizableHandle />
-                <ResizablePanel defaultSize={30}>
-                    <div className="flex flex-col h-full p-2">
-                        <h2 className="font-mono text-sm opacity-40 p-2">requirements.txt</h2>
-                        <h2 className="text-sm p-2">Project: To-Do List</h2>
-                        <ul className="text-sm p-2">
-                            <li><MdOutlineCheckBoxOutlineBlank className="inline"/> Add tasks to a list.</li>    
-                            <li><MdOutlineCheckBoxOutlineBlank className="inline"/> Mark tasks as completed.</li>
-                            <li><MdOutlineCheckBoxOutlineBlank className="inline"/>  Delete tasks from the list.</li>
-                        </ul>
-                    </div>
-                </ResizablePanel>
-                </ResizablePanelGroup>
-            </ResizablePanel>
+            }
         </ResizablePanelGroup>
     )
 }

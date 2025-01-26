@@ -62,7 +62,7 @@ export function SignupForm({
           <div className="flex relative items-center text-2xl">
             <CardTitle>Signup</CardTitle>
             <button onClick={() =>  {router.back()}} className="absolute right-0 top-0">
-              <IoIosCloseCircleOutline className="w-5 h-5"/>
+              <IoIosCloseCircleOutline className="w-6 h-6"/>
             </button>
           </div>
           <CardDescription>
