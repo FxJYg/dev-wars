@@ -48,7 +48,7 @@ export default function RootLayout({
                     </Link>
                     <span
                       className={`absolute bottom-0 left-1/2 w-0 h-[2px] bg-[#7b9acc] 
-                        ${pathname.includes("/practice") ? `left-0 w-full` :`transition-all duration-300 group-hover:w-full group-hover:left-0`}`}
+                        ${pathname.includes("/practice") ? `[&]:left-0 w-full` :`transition-all duration-300 group-hover:w-full group-hover:left-0`}`}
                     ></span>
                   </div>
                   <div className="group relative inline-block">
@@ -57,7 +57,7 @@ export default function RootLayout({
                     </Link>
                     <span
                       className={`absolute bottom-0 left-1/2 w-0 h-[2px] bg-[#7b9acc] 
-                        ${pathname == "/play" ? `left-0 w-full` :`transition-all duration-300 group-hover:w-full group-hover:left-0`}`}
+                        ${pathname == "/play" ? `[&]:left-0 w-full` :`transition-all duration-300 group-hover:w-full group-hover:left-0`}`}
                     ></span>
                   </div>
                   <LoginLogOut />
