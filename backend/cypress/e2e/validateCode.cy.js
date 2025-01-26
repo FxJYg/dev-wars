@@ -1,23 +1,16 @@
-describe('Easy React Challenge', () => {
-  it('Counter should increment on button click', () => {
-    cy.get('#counter-1').find('button').click();
-    cy.get('#counter-1').contains('Count: 1');
+describe('Easy React Challenge Tests', () => {
+  it('should render header component', () => {
+    cy.get('#header-component').should('exist');
   });
-
-  it('Current time updates every second', () => {
-    cy.get('#time-2').should('exist');
-    cy.wait(2000); // wait 2 seconds
-    cy.get('#time-2').should('not.be.empty');
+  it('should toggle message display', () => {
+    cy.get('#toggle-button').click();
+    cy.get('.message').should('be.visible');
+    cy.get('#toggle-button').click();
+    cy.get('.message').should('not.be.visible');
   });
-
-  it('Background color changes with color picker', () => {
-    cy.get('#color-picker-3').find('input[type="color"]').invoke('val', '#ff0000').trigger('change');
-    cy.get('body').should('have.css', 'background-color', 'rgb(255, 0, 0)');
-  });
-
-  it('Text input should echo value', () => {
-    const inputValue = 'Hello, World!';
-    cy.get('#text-echo-4').find('input').type(inputValue);
-    cy.get('#text-echo-4').contains(inputValue);
+  it('should display the name entered in the input form', () => {
+    cy.get('#input-form input').type('John Doe');
+    cy.get('#input-form button').click();
+    cy.get('.display-name').should('contain', 'John Doe');
   });
 });

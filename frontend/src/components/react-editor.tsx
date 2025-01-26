@@ -10,8 +10,9 @@ import { useEffect, useRef, useState } from "react"
 import * as Babel from "@babel/standalone";
 import { FaPlay } from "react-icons/fa";
 import { MdFileUpload } from "react-icons/md";
-import { MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
 import {useTimerContext} from "@/context/TimerContext";
+import { ToastContainer, toast } from 'react-toastify';
+
 
 
 type IStandaloneCodeEditor = Parameters<OnMount>[0];
@@ -71,7 +72,23 @@ render(<App />);`
                     if(triggerResponse.ok){
                         console.log('Cypress tests triggered successfully.');
                         const result = await triggerResponse.json();
-                        console.log('Cypress Results:', result.output);
+                        //console.log(typeof(result));
+                        //console.log(result);
+                        const data = result.data;
+                        //console.log(data);
+                        let index = data.indexOf("│ Tests:        ") + 16;
+                        const tests = data[index];
+                        index = data.indexOf("│ Passing:      ")+16;
+                        const passes = data[index];
+                        console.log(passes+"/"+tests);
+                        if(tests==passes){
+                            toast.success("You passed the tests!");
+                        }else if(passes=="0"){
+                            toast.error("You did not pass any test!");
+                        }else{
+                            toast.warning(`You passed `+passes + "/" + tests+ " tests"!);
+                        }
+                        console.log('Cypress Results:', result);
                     }else{
                         console.log('Failed to trigger Cypress tests:', triggerResponse.status);
                     }
@@ -143,6 +160,7 @@ render(<App />);`
             direction="horizontal"
             className="w-full rounded-lg border"
         >
+            <ToastContainer />
             <ResizablePanel defaultSize={50}>
                 <div className="flex flex-col h-full items-center justify-center gap-2 p-2">
                     <div className="flex w-full justify-between items-center">

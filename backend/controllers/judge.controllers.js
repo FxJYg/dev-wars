@@ -10,6 +10,7 @@ dotenv.config();
 export const getChallenge = async(req, res)=>{
     console.log("Generating challenge");
     const {dif} = req.body;
+    console.log(dif);
     try{
         const result = await generate(dif);
         console.log(result);
@@ -34,7 +35,7 @@ export const trigger = async(req, res)=>{
     let ps = new PowerShell("npx cypress run");
     try{
         ps.on("output", data =>{
-            console.log("Cypress Test Output:", data);
+            //console.log("Cypress Test Output:", data);
             console.log(typeof(data));
             res.status(200).send({
                 message: 'Cypress tests completed successfully.',

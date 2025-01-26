@@ -16,7 +16,7 @@ import {
   } from "@/components/ui/select"
 import { Button } from "./ui/button";  
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTimerContext } from "@/context/TimerContext";
 
 export function ProblemForm(){
@@ -25,7 +25,7 @@ export function ProblemForm(){
     const { setSelectedInstruction, setSelectedSetting } = useTimerContext()
 
     const handleProblem = async () => {
-        const dif = timerValue <= 15*60 ? "easy" : timerValue <= 30*60 ? "medium": "hard";
+        const dif = timerValue <= 15 ? "easy" : timerValue <= 30 ? "medium": "hard";
 
         const response = await fetch('http://localhost:3001/judge/generate',{
             method:"POST",
@@ -41,8 +41,8 @@ export function ProblemForm(){
             output += result.tasklist[i].tasknum +". " +result.tasklist[i].title+" with ID: #\"" + result.tasklist[i].elementID + "\"\n\t\t\t" + result.tasklist[i].description+"\n"; 
         }
         console.log(output);
-        setSelectedInstruction(output);
         setSelectedSetting(timerValue);
+        setSelectedInstruction(output);
         router.back()
     }
 
