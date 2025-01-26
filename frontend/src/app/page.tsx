@@ -67,14 +67,14 @@ export default function TodoList() {
         </SyntaxHighlighter>
       </div>
       <div className="relative w-1/5 h-1/10 mx-auto p-4 rounded-lg bg-[#7b9acc] font-mono hover:scale-105">
-        <Link href="/play">
+        <Link href="/login">
           <div className="flex space-x-4 justify-center items-center text-center font-extrabold">
             <h1>Get Started</h1>
             <MdStart />
           </div>
           <span
             className="absolute inset-0 border-2 border-transparent rounded-lg transition duration-500 
-            hover:rounded-lg spin hover:border-white"
+            hover:rounded-lg spin border-white"
           ></span>
         </Link>
       </div>
