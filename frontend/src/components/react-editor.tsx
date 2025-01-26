@@ -5,7 +5,7 @@ import {
     ResizablePanelGroup,
 } from "@/components/ui/resizable"
 
-import Editor, { DiffEditor, useMonaco, loader, type OnMount } from '@monaco-editor/react';
+import Editor, { type OnMount } from '@monaco-editor/react';
 import { useRef } from "react"
 import * as Babel from "@babel/standalone";
 import { FaPlay } from "react-icons/fa";
@@ -21,15 +21,57 @@ export function ReactEditor({}){
     return (
         <div>
             Hello World!
-
         </div>
     );
 };
 render(<App />);`
 
-    function handleEditorDidMount(editor : any) {
+    function handleEditorDidMount(editor: IStandaloneCodeEditor) {
         editorRef.current = editor;
       }
+      
+    const handleSubmitCode = async() => {
+        if(iframeContainerRef.current && editorRef.current){
+            try{
+               const code = editorRef.current.getValue();
+               const transformedCode = Babel.transform(code, { 
+                     presets: ["react", "env"],
+                }).code;
+                console.log(transformedCode);
+                const data = {transformedCode};
+                const response = await fetch('http://localhost:3001/judge/getCode',{
+                    method:"POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify(data),
+                });
+
+                console.log(response.json());
+                if(response.ok){
+                    console.log('Code submitted successfuly.');
+
+                    const triggerResponse = await fetch('http://localhost:3001/judge/trigger',{
+                        method: "GET",
+                    });
+
+                    if(triggerResponse.ok){
+                        console.log('Cypress tests triggered successfully.');
+                        const result = await triggerResponse.json();
+                        console.log('Cypress Results:', result.output);
+                    }else{
+                        console.log('Failed to trigger Cypress tests:', triggerResponse.status);
+                    }
+                }else{
+                    console.error("Data sent failed:", response.status);
+                }
+                
+            } catch(error){
+                console.error('Error:', error);
+            }  
+        }
+    }
     
     function handleRunCode() {
         if (iframeContainerRef.current && editorRef.current){
@@ -41,7 +83,7 @@ render(<App />);`
             iframeContainerRef.current.appendChild(iframe);
 
             try {
-                let code = editorRef.current.getValue();
+                const code = editorRef.current.getValue();
                 const transformedCode = Babel.transform(code , {
                     presets: ["react", "env"], 
                 }).code;
@@ -106,7 +148,7 @@ render(<App />);`
                                     ></span>
                                 </div>
                             </button>
-                            <button onClick={handleRunCode} className="bg-[#7b9acc] rounded-md hover:scale-105">
+                            <button onClick={handleSubmitCode} className="bg-[#7b9acc] rounded-md hover:scale-105">
                                 <div className="relative">
                                     <div className="flex items-center space-x-1 px-2 py-1">
                                         <MdFileUpload className="w-5 h-5"/>

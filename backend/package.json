@@ -19,8 +19,13 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
+    "node-powershell": "^5.0.1",
     "nodemon": "^3.1.9",
     "openai": "^4.80.1",
-    "pg": "^8.13.1"
+    "pg": "^8.13.1",
+    "powershell": "^2.3.2"
+  },
+  "devDependencies": {
+    "cypress": "^14.0.0"
   }
 }

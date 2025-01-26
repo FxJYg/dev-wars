@@ -3,7 +3,6 @@ import Link from "next/link";
 import { MdOutlineMonitor } from "react-icons/md";
 import { LuSwords } from "react-icons/lu";
 import { LoginLogOut } from "@/components/login-logout";
-import { IoLogInOutline } from "react-icons/io5";
 
 export default function RootLayout({
   children,
